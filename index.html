@@ -1,0 +1,146 @@
+<html>
+
+<head>
+<table border=5 align="center" width=100% >
+ <tr> <th colspan=2> <h1> <font face="verdana">HEART DISEASE PREDICTOR </h1></th></tr>
+<p><font face="verdana">
+
+	<script>
+
+		function calc(form)
+		{
+				val00 = document.getElementById("nAge").value;
+				val01 = document.getElementById("nSex").value;
+				val02 = document.getElementById("nRestbp").value;
+				val03 = document.getElementById("nThalach").value;
+				val04 = document.getElementById("nCa").value;
+				val05 = document.getElementById("nCp").value;
+				val06 = document.getElementById("nSlope").value;
+				val07 = document.getElementById("nThal").value;
+
+         // Standardize the continuous features using z-score formula
+
+         let sage_val = (val00 - 54.521) / 9.03;
+         let srbp_val = (val02 - 131.7157) / 17.7478;
+         let sthalach_val = (val03 - 149.3278) / 23.1211;
+         let sca_val = (val04 - 0.6722) / 0.937;
+
+
+         // Disentangle the categorical features
+
+         let cp_count = 0.0;
+         if (val05 === 1)
+         {
+           cp_count = -2.10032;
+         } else if (val05 === 2)
+         {
+           cp_count= -0.8;
+         } else if (val05 === 3)
+         {
+           cp_count = -1.8;
+         }
+         let slope_count = 0.0;
+         if (val06 === 0)
+         {
+           slope_count = -1.16379;
+         } else if (val06 === 1)
+         {
+           slope_count = -0.64688;
+         }
+         let thal_count = 0.0;
+         if (val07 === 0)
+         {
+           thal_count = -0.03066;
+         } else if (val07 === 1)
+         {
+           thal_count =  1.40155;
+         }
+
+         // Compute log-odds, then probability
+
+         let prod = -0.03438 * sage_val + 1.54868 * val01 + 0.43319 * srbp_val - 0.41727 * sthalach_val + 3.92866 * sca_val + cp_count + slope_count + thal_count - 0.605239;
+         let result = 1.0 / (1.0 + Math.exp(-prod));
+         result *= 100;
+         alert("Predicted value: " + result + "\n");
+
+        }
+    </script>
+
+</head>
+
+
+<body bgcolor="#d2e0f7">
+<table border=5 align="center" width=100%>
+
+
+		<form name=myform  action="" method="getElementById">
+
+			<br/><br/>
+			<center> Age
+			<input type="number" name="age" min="1" max="100" id="nAge"> </center>
+			<br/><br/>
+
+			<center> Sex(0=female,1=male) 
+
+			<select name="sex"  id="nSex">
+				<option> 0 </option>
+				<option> 1 </option>
+			</select>
+			 </center>
+	
+			<br/><br/>
+
+			<center> Resting Blood Pressure(94-200mmHg)
+			<input type="number" name="restbp" min="94" max="200" id="nRestbp">
+			</center>
+			<br/><br/>
+
+			<center> Thalium Stress Test Maximum Heart Rate(71-202)
+			<input type="number" name="nThalach1" min="71" max="202" id="nThalach">
+			</center>
+			<br/><br/>
+
+			<center> Number of Major vessels colored by Fluoroscopy(0-3)
+			<select name="color" id="nCa">
+				<option> 0 </option>
+				<option> 1 </option>
+				<option> 2 </option>
+				<option> 3 </option>
+			</select>
+			</center>
+			<br/><br/>
+
+			<center> Chest Pain Type(1=typical angina,2=atypical angina,3=non-angina,4=asymptomatic angina)
+			<select name="pain" id="nCp">
+				<option> 1 </option>
+				<option> 2 </option>
+				<option> 3 </option>
+			</select>
+			</center>
+			<br><br/>
+
+			<center> Peak Excercise ST Segment(0=flat or downsloping,1=unsloping)
+			<select name="segment" id="nSlope">
+				<option> 0 </option>
+				<option> 1 </option>
+			</select>
+			</center>
+			<br/><br/>
+
+			<center> Thalium Test(0=normal or fixed defect,1=reversible defect)
+			<select name="test" id="nThal">
+				<option> 0 </option>
+				<option> 1 </option>
+			</select>
+			</center>
+			<br/><br/>
+
+			<center>
+			<input type="button" name="button" Value = "Predict" onclick="calc(this.form)" />
+			</center>
+			
+			</form>
+</font></p>
+		</table>
+	</body>
+</html>
